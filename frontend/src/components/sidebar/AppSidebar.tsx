@@ -15,6 +15,7 @@ import { Settings, Sparkle, User } from "lucide-react";
 import { UserButton } from "@daveyplate/better-auth-ui";
 import SidebarMenuItems from "./sidebar-menu-items";
 import MobileSidebarClose from "./mobile-sidebar-close";
+import Credits from "./credits";
 
 export default async function AppSidebar() {
   return (
@@ -47,8 +48,7 @@ export default async function AppSidebar() {
       </SidebarContent>
       <SidebarFooter className="bg-muted/30 border-t p-3">
         <div className="mb-3 flex w-full items-center justify-center gap-2 text-xs">
-          {/* <Credits />
-          <Upgrade /> */}
+          <Credits/>
         </div>
         <UserButton
           variant="outline"
