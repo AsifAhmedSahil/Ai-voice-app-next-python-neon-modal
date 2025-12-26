@@ -12,10 +12,11 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { Settings, Sparkle, User } from "lucide-react";
-import { UserButton } from "@daveyplate/better-auth-ui";
+
 import SidebarMenuItems from "./sidebar-menu-items";
 import MobileSidebarClose from "./mobile-sidebar-close";
 import Credits from "./credits";
+import { UserButton } from "@daveyplate/better-auth-ui";
 
 export default async function AppSidebar() {
   return (
