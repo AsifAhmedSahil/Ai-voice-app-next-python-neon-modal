@@ -5,6 +5,7 @@ import { getUserCredits } from "~/actions/tts";
 const Credits = async () => {
   const result = await getUserCredits();
   const credits = result.success ? result.credit : 0;
+  console.log(credits)
 
   return (
     <div className="group flex items-center gap-2">
