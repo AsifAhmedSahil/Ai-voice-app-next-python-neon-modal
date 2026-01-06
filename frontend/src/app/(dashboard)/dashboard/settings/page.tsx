@@ -49,7 +49,7 @@ const Settings = () => {
               Manage your account preferences and security settings
             </p>
           </div>
-
+{/* update */}
           <div className="flex flex-col items-center justify-center gap-6">
             <AccountSettingsCards className="w-full max-w-2xl" />
             <SecuritySettingsCards className="w-full max-w-2xl" />
