@@ -12,79 +12,81 @@ import torch
 
 import torchaudio
 
-app = modal.App("ai-voice-studio-sahand")
+app = modal.App("sonix-ai-voice-studio")
 
-image = {
+image = (
     modal.Image.debian_slim(python_version="3.11")
 
     .pip_install("numpy==1.26.0","torch==2.6.0")
     .pip_install_from_requirements("requirements.txt")
     .apt_install("ffmpeg")
 
-}
+)
 
 volume = modal.Volume.from_name("hf-cache-ai-voice",create_if_missing=True)
 
-s3_secret = modal.Secret.from_name("secret key")
+s3_secret = modal.Secret.from_name("sonix-ai-voice-aws-secret")
 
 class TextToSpeechRequest(BaseModel):
-    text:str
-    voice_s3_key:Optional[str]
-    language: str ="en"
+    text: str
+    voice_s3_key: Optional[str] = None
+    language: str = "en"
     exaggeration: float = 0.5
     cfg_weight: float = 0.5
 
+
 class TextToSpeechResponse(BaseModel):
-    s3_key: str
+    s3_Key: str
 
 
 @app.cls(
     image=image,
-    gpu="L40S",
+    gpu="L4",
     volumes={
         "/root/.cache/huppingface": volume,
-        "/s3-mount": modal.CloudBucketMount("ai-voice-studio-sahand", secret=s3_secret)
+        "/s3-mount": modal.CloudBucketMount("sonix-ai-voice", secret=s3_secret)
     },
     scaledown_window=120,
     secrets=[s3_secret]
 )
 
-class TextToSpeechServer:
+class TextToSpeachServer:
     @modal.enter()
     def load_model(self):
         from chatterbox.mtl_tts import ChatterboxMultilingualTTS
         self.model = ChatterboxMultilingualTTS.from_pretrained(device="cuda")
 
-    @modal.fastapi_endpoint(method="POST",requires_proxy_auth=True)
-    
-    def generate_speech(self, request:TextToSpeechRequest) -> TextToSpeechResponse:
+    @modal.fastapi_endpoint(method="POST", requires_proxy_auth=True)
+    def generate_speech(self, request: TextToSpeechRequest) -> TextToSpeechResponse:
         with torch.no_grad():
             if request.voice_s3_key:
-                audio_promt_path = f"/s3-mount/{request.voice_s3_key}"
-                if not os.path.exists(audio_promt_path):
+                audio_prompt_path = f"/s3-mount/{request.voice_s3_key}"
+
+                if not os.path.exists(audio_prompt_path):
                     raise FileNotFoundError(
-                        f"Prompt audio not found at {audio_promt_path}")
+                        f"Prompt audio not found at {audio_prompt_path}")
                 wav = self.model.generate(
-                    request.text,
-                    audio_promt_path=audio_promt_path,
+                    request.text, 
+                    audio_prompt_path=audio_prompt_path,
                     language_id=request.language,
                     exaggeration=request.exaggeration,
                     cfg_weight=request.cfg_weight
-            )
-            else :
+                )
+            else:
                 wav = self.model.generate(
                     request.text,
                     language_id=request.language,
                     exaggeration=request.exaggeration,
                     cfg_weight=request.cfg_weight
                 )
-            
             wav_cpu = wav.cpu()
-        #Convert the audio tensor to wav format bytes
-        buffer = io.BytesIO() # Create and in memory buffer
-        torchaudio.save(buffer,wav_cpu,self.model.sr,format="wav") # save as WAV
-        buffer.seek(0) # Reset buffer position to start
-        audio_bytes = buffer.read() # read all bytes
+
+        # Convert the audio tensor to WAV format bytes
+        buffer = io.BytesIO()  # Create an in-memory buffer
+        torchaudio.save(buffer, wav_cpu, self.model.sr, format="wav")  # Save as WAV
+        buffer.seek(0)  # Reset buffer position to start
+        audio_bytes = buffer.read()  # Read all bytes            
+
 
         audio_uuid = str(uuid.uuid4())  
         s3_key = f"tts/{audio_uuid}.wav"
@@ -96,5 +98,3 @@ class TextToSpeechServer:
             f.write(audio_bytes)
         print(f"Saved audio to S3: {s3_key}")
         return TextToSpeechResponse(s3_Key=s3_key)
-
-# update
