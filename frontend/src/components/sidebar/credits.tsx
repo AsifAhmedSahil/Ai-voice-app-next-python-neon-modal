@@ -1,11 +1,17 @@
+"use client";
+
 import { Coins, Sparkles } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getUserCredits } from "~/actions/tts";
 
-const Credits = async () => {
-  const result = await getUserCredits();
-  const credits = result.success ? result.credit : 0;
-  console.log(credits)
+const Credits = () => {
+  const [credits, setCredits] = useState(0);
+
+  useEffect(() => {
+    getUserCredits().then((result) => {
+      setCredits(result.success ? result.credit : 0);
+    });
+  }, []);
 
   return (
     <div className="group flex items-center gap-2">
