@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import Link from "next/link";
 import {
@@ -19,7 +19,7 @@ import Credits from "./credits";
 import { UserButton } from "@daveyplate/better-auth-ui";
 import Upgrade from "./upgrade";
 
-export default async function AppSidebar() {
+export default function AppSidebar() {
   return (
     <Sidebar className="from-background to-muted/20 border-r-0 bg-gradient-to-b">
       <SidebarContent className="px-2">

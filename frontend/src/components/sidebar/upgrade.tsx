@@ -9,9 +9,9 @@ const Upgrade = () => {
   const upgrade = async () => {
     await authClient.checkout({
       products: [
-        "0509872e-f1ef-4cb0-8492-edc8b8de859e",
-        "fd476fe1-a442-41ac-aac0-f32f7cc3b50f",
-        "32ebabba-115c-4a62-8be2-42a9d510b359",
+        "2661dbb5-ee8e-4b65-b513-26261666dbc4",
+        "610e40b4-752f-42b7-9202-ba28f956e56b",
+        "26746c00-dadd-4287-9afc-8e1ecef40b01",
       ],
     });
   };
