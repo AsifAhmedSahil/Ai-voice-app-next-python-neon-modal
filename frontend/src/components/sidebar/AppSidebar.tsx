@@ -9,7 +9,6 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuItem,
 } from "../ui/sidebar";
 import { Settings, Sparkle, User } from "lucide-react";
 

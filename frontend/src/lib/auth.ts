@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 // src/lib/auth.ts
 import { betterAuth, type User } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
@@ -11,7 +7,6 @@ import {
   polar,
   checkout,
   portal,
-  usage,
   webhooks,
 } from "@polar-sh/better-auth";
 import { env } from "~/env";

@@ -14,8 +14,8 @@ export function Providers({ children }: { children: ReactNode }) {
     return (
         <AuthUIProvider
             authClient={authClient}
-            navigate={router.push}
-            replace={router.replace}
+            navigate={router.push.bind(router)}
+            replace={router.replace.bind(router)}
             onSessionChange={() => {
                 // Clear router cache (protected routes)
                 router.refresh()

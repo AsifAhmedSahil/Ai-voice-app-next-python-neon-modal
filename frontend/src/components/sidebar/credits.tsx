@@ -8,7 +8,7 @@ const Credits = () => {
   const [credits, setCredits] = useState(0);
 
   useEffect(() => {
-    getUserCredits().then((result) => {
+    void getUserCredits().then((result) => {
       setCredits(result.success ? result.credit : 0);
     });
   }, []);

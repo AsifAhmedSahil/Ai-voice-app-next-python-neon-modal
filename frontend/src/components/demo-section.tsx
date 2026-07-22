@@ -55,7 +55,7 @@ export default function DemoSection() {
     },
   ];
 
-  const handlePlay = (id: string, audioUrl: string) => {
+  const handlePlay = (id: string, _audioUrl: string) => {
     if (playingId === id) {
       const audio = document.getElementById(id) as HTMLAudioElement;
       audio?.pause();
