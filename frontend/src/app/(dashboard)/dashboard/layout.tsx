@@ -15,8 +15,8 @@ import "~/styles/globals.css";
 
 
 export const metadata:Metadata = {
-  title:"SonixAI -AI Voice Studio",
-  description:"AI voice Studio - Transform text into natural speech",
+  title:"SonixAI -Sonix AI",
+  description:"Sonix AI - Transform text into natural speech",
   icons: [{ rel: "icon",url:"/favicon.ico"}]
 }
 

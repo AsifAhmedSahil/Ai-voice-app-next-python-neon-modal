@@ -36,7 +36,7 @@ export default function AppSidebar() {
             </Link>
 
             <p className="text-muted-foreground ml-8 text-sm font-medium tracking-wide">
-              AI Voice Studio
+              Sonix AI
             </p>
           </SidebarGroupLabel>
 
