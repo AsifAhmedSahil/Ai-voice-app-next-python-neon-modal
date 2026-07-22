@@ -19,7 +19,8 @@ import type {
 } from "~/types/tts";
 import SpeechSettings from "~/components/create/speech-settings";
 import TextInput from "~/components/create/text-input";
-import AudioHistory from '~/components/create/audio-history';
+import AudioHistory from "~/components/create/audio-history";
+
 
 const LANGUAGES: Language[] = [
   { code: "en", name: "English", flag: "🇺🇸" },
